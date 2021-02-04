@@ -108,6 +108,7 @@ see examples
 | isLeaf | whether it's leaf node | bool | false |
 | icon | customize icon. When you pass component, whose render will receive full TreeNode props as component props | element/Function(props) | - |
 | switcherIcon | specific the switcher icon. | ReactNode / (props: TreeNodeAttribute) => ReactNode | - |
+| renderCheckbox | render a custom checkbox element. | (props: CheckboxProps) => ReactNode | - |
 
 ## Note
 
