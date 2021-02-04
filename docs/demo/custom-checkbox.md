@@ -1,3 +1,3 @@
 ## custom checkbox
 
-<code src="../examples/custom-checkbox.jsx">
+<code src="../examples/custom-checkbox.tsx">
