@@ -63,7 +63,7 @@ export interface CheckboxProps {
   halfChecked?: boolean;
   disableCheckbox?: boolean;
   disabled?: boolean;
-  checkable?: boolean;
+  checkable: boolean;
   onCheck: (e: React.MouseEvent<any, MouseEvent>) => void;
 }
 export interface InternalTreeNodeProps extends TreeNodeProps {
