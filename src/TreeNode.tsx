@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -63,7 +64,7 @@ export interface CheckboxProps {
   disableCheckbox?: boolean;
   disabled?: boolean;
   checkable?: boolean;
-  onCheck: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  onCheck: (e: React.MouseEvent<any, MouseEvent>) => void;
 }
 export interface InternalTreeNodeProps extends TreeNodeProps {
   context?: TreeContextProps;
@@ -78,7 +79,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
     dragNodeHighlight: false,
   };
 
-  public selectHandle: HTMLSpanElement;
+  public selectHandle: any;
 
   // Isomorphic needn't load data in server side
   componentDidMount() {
@@ -89,7 +90,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
     this.syncLoadData(this.props);
   }
 
-  onSelectorClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  onSelectorClick = (e: React.MouseEvent<any, MouseEvent>) => {
     // Click trigger before select/check operation
     const {
       context: { onNodeClick },
@@ -103,14 +104,14 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
     }
   };
 
-  onSelectorDoubleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  onSelectorDoubleClick = (e: React.MouseEvent<any, MouseEvent>) => {
     const {
       context: { onNodeDoubleClick },
     } = this.props;
     onNodeDoubleClick(e, convertNodePropsToEventData(this.props));
   };
 
-  onSelect = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  onSelect = (e: React.MouseEvent<any, MouseEvent>) => {
     if (this.isDisabled()) return;
 
     const {
@@ -120,7 +121,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
     onNodeSelect(e, convertNodePropsToEventData(this.props));
   };
 
-  onCheck = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  onCheck = (e: React.MouseEvent<any, MouseEvent>) => {
     if (this.isDisabled()) return;
 
     const { disableCheckbox, checked } = this.props;
@@ -130,26 +131,26 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
 
     if (!this.isCheckable() || disableCheckbox) return;
 
-    e.preventDefault();
+    // e.preventDefault();
     const targetChecked = !checked;
     onNodeCheck(e, convertNodePropsToEventData(this.props), targetChecked);
   };
 
-  onMouseEnter = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  onMouseEnter = (e: React.MouseEvent<any, MouseEvent>) => {
     const {
       context: { onNodeMouseEnter },
     } = this.props;
     onNodeMouseEnter(e, convertNodePropsToEventData(this.props));
   };
 
-  onMouseLeave = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  onMouseLeave = (e: React.MouseEvent<any, MouseEvent>) => {
     const {
       context: { onNodeMouseLeave },
     } = this.props;
     onNodeMouseLeave(e, convertNodePropsToEventData(this.props));
   };
 
-  onContextMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  onContextMenu = (e: React.MouseEvent<any, MouseEvent>) => {
     const {
       context: { onNodeContextMenu },
     } = this.props;
@@ -379,12 +380,12 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
     // [Legacy] Custom element should be separate with `checkable` in future
     const $custom = typeof checkable !== 'boolean' ? checkable : null;
 
-    return renderCheckbox ? (
+    return renderCheckbox && typeof checkable === 'boolean' ? (
       renderCheckbox({
         checked,
         halfChecked,
         disableCheckbox,
-        checkable: true,
+        checkable,
         disabled,
         onCheck: this.onCheck.bind(this),
       })
