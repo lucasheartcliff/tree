@@ -48,22 +48,10 @@ export interface TreeNodeProps {
   icon?: IconType;
   switcherIcon?: IconType;
   children?: React.ReactNode;
-  renderCheckbox?: ({
-    checked,
-    halfChecked,
-    disableCheckbox,
-    disabled,
-    checkable,
-    onCheck,
-  }: CheckboxProps) => React.ReactNode;
+  renderCheckbox?: (props: CheckboxProps) => React.ReactNode;
 }
 
-export interface CheckboxProps {
-  checked?: boolean;
-  halfChecked?: boolean;
-  disableCheckbox?: boolean;
-  disabled?: boolean;
-  checkable: boolean;
+export interface CheckboxProps extends Omit<TreeNodeProps, 'renderCheckbox'> {
   onCheck: (e: React.MouseEvent<any, MouseEvent>) => void;
 }
 export interface InternalTreeNodeProps extends TreeNodeProps {
@@ -368,10 +356,12 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
 
   // Checkbox
   renderCheckbox = () => {
-    const { checked, halfChecked, disableCheckbox, renderCheckbox } = this.props;
+    const { checked, halfChecked, disableCheckbox } = this.props;
+    const { renderCheckbox, ...propsRest } = this.props;
     const {
       context: { prefixCls },
     } = this.props;
+
     const disabled = this.isDisabled();
     const checkable = this.isCheckable();
 
@@ -380,13 +370,9 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
     // [Legacy] Custom element should be separate with `checkable` in future
     const $custom = typeof checkable !== 'boolean' ? checkable : null;
 
-    return renderCheckbox && typeof checkable === 'boolean' ? (
+    return renderCheckbox ? (
       renderCheckbox({
-        checked,
-        halfChecked,
-        disableCheckbox,
-        checkable,
-        disabled,
+        ...propsRest,
         onCheck: this.onCheck.bind(this),
       })
     ) : (

@@ -27,6 +27,8 @@ node_modules
 dist
 *.css
 build
+types
+types/*
 lib
 /coverage
 yarn.lock
