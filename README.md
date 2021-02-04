@@ -29,7 +29,7 @@ Tree component.
 
 ## Example
 
-http://localhost:9001/
+local example: http://localhost:8000/
 
 online example: https://tree.react-component.now.sh/
 

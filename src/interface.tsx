@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TreeNodeProps } from './TreeNode';
+import { CheckboxProps, TreeNodeProps } from './TreeNode';
 
 export { ScrollTo } from 'rc-virtual-list/lib/List';
 
@@ -14,6 +14,14 @@ export interface DataNode {
   title?: React.ReactNode;
   selectable?: boolean;
   switcherIcon?: IconType;
+  renderCheckbox?: ({
+    checked,
+    halfChecked,
+    disableCheckbox,
+    disabled,
+    checkable,
+    onCheck,
+  }: CheckboxProps) => React.ReactNode;
 
   /** Set style of TreeNode. This is not recommend if you don't have any force requirement */
   className?: string;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-// @ts-ignore
+
 import { TreeContext, TreeContextProps } from './contextTypes';
 import { getDataAndAria } from './util';
 import { IconType, Key, DataNode } from './interface';
@@ -47,8 +47,24 @@ export interface TreeNodeProps {
   icon?: IconType;
   switcherIcon?: IconType;
   children?: React.ReactNode;
+  renderCheckbox?: ({
+    checked,
+    halfChecked,
+    disableCheckbox,
+    disabled,
+    checkable,
+    onCheck,
+  }: CheckboxProps) => React.ReactNode;
 }
 
+export interface CheckboxProps {
+  checked?: boolean;
+  halfChecked?: boolean;
+  disableCheckbox?: boolean;
+  disabled?: boolean;
+  checkable?: boolean;
+  onCheck: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+}
 export interface InternalTreeNodeProps extends TreeNodeProps {
   context?: TreeContextProps;
 }
@@ -351,7 +367,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
 
   // Checkbox
   renderCheckbox = () => {
-    const { checked, halfChecked, disableCheckbox } = this.props;
+    const { checked, halfChecked, disableCheckbox, renderCheckbox } = this.props;
     const {
       context: { prefixCls },
     } = this.props;
@@ -363,7 +379,16 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
     // [Legacy] Custom element should be separate with `checkable` in future
     const $custom = typeof checkable !== 'boolean' ? checkable : null;
 
-    return (
+    return renderCheckbox ? (
+      renderCheckbox({
+        checked,
+        halfChecked,
+        disableCheckbox,
+        checkable: true,
+        disabled,
+        onCheck: this.onCheck.bind(this),
+      })
+    ) : (
       <span
         className={classNames(
           `${prefixCls}-checkbox`,
